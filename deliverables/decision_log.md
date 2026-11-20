@@ -27,3 +27,4 @@
 2:24pm PT: Item 5 --force flag reject with cavet in case there is something missing here. If it is redact file then there is no --force 
 2:30pm PT: Add gitignore and delete "__pycache__" files from tracking
 2:35pm PT: Completed Evidence file moving onto skill rewriting
+2:40pm PT: Correcting 
