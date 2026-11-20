@@ -60,3 +60,21 @@ Things I believed or assumed but did not check.
    digits) anywhere in the reply and takes the first match. I do not know the field name, or
    whether the reply also contains the old key, in which case the helper could save the wrong
    one. If no match is found, the helper stops and treats the outcome as unknown.
+
+## The one thing I would check first
+
+**Whether the old key is void immediately after a rotation, and whether the timeout in the
+incident was a failed first request or a race condition.** These two questions are linked, and
+together they would answer what happened in the incident.
+
+- If the old key is void immediately, then the second call succeeding with the same old key
+  means the first call had not completed a rotation when the second one ran.
+- The timeout then has two explanations: the first request failed and stopped (option 1 in my
+  answer to review item 3), or there was a race condition and the second request happened to
+  finish first (option 2).
+- If the old key stays valid for a while after a rotation, the second call succeeding tells us
+  nothing about the first call, and both calls may have created a key.
+
+I would check it by rotating a test key and trying the old key straight afterwards, and by
+looking at Relay's logs for the first call: whether it was received and when it finished. I do
+not know whether those logs exist, and I have no access to Relay.

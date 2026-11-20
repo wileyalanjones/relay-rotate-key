@@ -28,11 +28,16 @@
 2:30pm PT: Add gitignore and delete "__pycache__" files from tracking
 2:35pm PT: Completed Evidence file moving onto skill rewriting
 2:40pm PT: Correcting AI on what I want for skill.
+2:44pm PT: Changing mind on the posting of the comment to the dashboard with the request and response. Was going to remove but kept on. 
 2:45pm PT: Finish skill.MD and writing a new helper to handle the curling, backoff, and redaction. 
-2:50pm PT: Decide how the key should be stored for user. A user-only folder in the home directory so novices can still find it.
+2:50pm PT: Decide how the key should be stored for user. A user-only folder in the home directory so novices can still find it. Changed mind from having it on Desktop which could bring cloud issues
 2:58pm PT: Write the new script for handling the curl, backoff, and redaction away from the model
 3:05pm PT: Start working on guardrail
 3:10pm PT: Finish guardrails
 3:11pm PT: Start working on rollout.
 3:20pm PT: Debate with Claude on rollout issues. 
 3:25pm PT: Finish rollout. 
+3:30pm PT: Writing the opening paragraph of the decision memo 
+3:39pm PT: Write the rest of the decision memo with AI assistence
+3:45pm PT: Deciding what my check first on the unverified list will be
+3:50pm PT: Editting Decision Memo 
