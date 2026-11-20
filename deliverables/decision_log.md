@@ -1,3 +1,13 @@
 # Decision Log 
 
 1:15pm PT: Initial repo 
+1:15pm PT: Look into redact.py to see issues
+1:19pm PT: Redact doesn't work work with new lines or hyphens.
+1:20pm PT: Correct AI for changing file without asking
+1:22pm PT: Make file that shows basic failures on hyphens and newlines
+1:23pm PT: Make Evidence file and add inputs and results. 
+1:26pm PT: Correct AI on evidence file 
+1:29pm PT: Check the Bear Section of the redact
+1:32pm PT: Correct AI on Bearer Relay Key format
+1:34pm PT: Add results to evidence file 
+1:36pm PT: Write test file with unittests for redact.py
