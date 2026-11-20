@@ -38,3 +38,25 @@ Things I believed or assumed but did not check.
    matches skill descriptions, so I don't know whether a wrong match really happens. I also
    don't know what downstream systems depend on a Relay key, so I can't say how bad an
    accidental rotation would be.
+
+7. **What kind of machines the team uses.** I designed the helper (`rotate_key.py`) as if it runs
+   on a Mac, and it saves the new key in a visible folder in the home directory
+   (`~/relay-keys/`) with owner-only permissions (`700` on the folder, `600` on the file). The
+   packet does not say which operating systems the engineers use. Those permission modes
+   behave differently on Windows, so on Windows the file may not be user-only. I did not test
+   on Windows or Linux. I also did not check whether the home folder is synced to a cloud
+   service on these machines.
+
+8. **Which errors from Relay are safe to retry.** In `rotate_key.py` I retry (up to 3 times, with
+   backoff) only on 503, 429 and refused connections, because in those cases the request
+   probably never took effect. A timeout, a 500 or any other 5xx is treated as "outcome
+   unknown" and is not retried, and any other 4xx is treated as permanent. I chose these
+   groups from general HTTP behavior. I do not know how Relay actually behaves, for example
+   whether a 503 from Relay could still mean the rotation went through. I only tested against
+   a fake local server.
+
+9. **What Relay's response looks like.** The packet only says "the response contains the new
+   key". `rotate_key.py` finds the new key by its `rly_` shape (`rly_` plus 24 letters or
+   digits) anywhere in the reply and takes the first match. I do not know the field name, or
+   whether the reply also contains the old key, in which case the helper could save the wrong
+   one. If no match is found, the helper stops and treats the outcome as unknown.
