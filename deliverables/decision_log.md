@@ -31,3 +31,8 @@
 2:45pm PT: Finish skill.MD and writing a new helper to handle the curling, backoff, and redaction. 
 2:50pm PT: Decide how the key should be stored for user. A user-only folder in the home directory so novices can still find it.
 2:58pm PT: Write the new script for handling the curl, backoff, and redaction away from the model
+3:05pm PT: Start working on guardrail
+3:10pm PT: Finish guardrails
+3:11pm PT: Start working on rollout.
+3:20pm PT: Debate with Claude on rollout issues. 
+3:25pm PT: Finish rollout. 
