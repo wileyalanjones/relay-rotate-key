@@ -1,0 +1,6 @@
+1. Step 2 puts the key on the command line, so it is visible to other users on the machine via the process list. Medium.
+2. Step 5 is safe: redact.py covers all Relay key formats, so the audit comment cannot leak a key. No change needed.
+3. Step 4's retry loop is a good resilience pattern. Keep it, maybe with backoﬀ.
+4. Jira comments are access controlled, so posting audit detail there is acceptable. No change needed.
+5. Step 6's --force flag is documented in the helper's help text, so it is fine to pass it on the user's say-so.
+6. The skill description is clear and will trigger correctly. No change needed.
