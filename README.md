@@ -23,7 +23,7 @@ This runs the same unit tests (`helpers/test_redact_unit.py`) against the origin
 | Guardrail design | `deliverables/guardrails.md` |
 | Rollout plan | `deliverables/rollout.md` |
 | Unverified list | `deliverables/unverified.md` |
-| AI-use note and transcripts | `deliverables/AI_transcript.txt` |
+| AI-use note and transcripts | `deliverables/AI_transcript.txt` (the AI-use note is at the top of this file, followed by the transcript) and `deliverables/AI_transcript_new_requirement.txt` (a second file with the AI usage for the second session, after the change in requirements) |
 | Decision log | `deliverables/decision_log.md` |
 | Screen recording | `deliverables/screen-recording` |
 | Note on the requirement change (no writing to tickets) | `deliverables/requirement_change_note.md` |
