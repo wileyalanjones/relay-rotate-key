@@ -1,3 +1,6 @@
+import json
+import os
+import re
 import unittest
 from redact import redact
 
@@ -48,6 +51,54 @@ class TestRedact(unittest.TestCase):
         for name, nl in NEWLINES.items():
             with self.subTest(newline=name):
                 self.assert_no_leak(f"Authorization: Bearer rly_{BODY[:3]}{nl}{BODY[3:]}")
+
+
+# ---------------------------------------------------------------------------
+# Your own inputs. Set REDACT_INPUTS to a JSON file (run_tests.py --inputs does
+# this for you). Each case is an object:
+#   "name":   a label (optional)
+#   "text":   the text to run through redact()
+#   "secret": the unbroken secret hidden in the text (optional)
+# With a "secret", the test fails if any 4-character piece of it survives.
+# Without one, the test checks that the text comes back unchanged.
+# ---------------------------------------------------------------------------
+def _pieces(secret):
+    body = secret[4:] if secret.startswith("rly_") else secret
+    if len(body) < 4:
+        return [body]
+    return [body[i:i + 4] for i in range(len(body) - 3)]
+
+
+def _load_custom_cases():
+    path = os.environ.get("REDACT_INPUTS")
+    if not path:
+        return []
+    with open(path, encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def _make_test(case):
+    def test(self):
+        text = case["text"]
+        secret = case.get("secret")
+        out = redact(text)
+        print(f"\n    before: {text!r}")
+        print(f"    after:  {out!r}")
+        if secret:
+            for piece in _pieces(secret):
+                self.assertNotIn(piece, out, f"secret leaked in output: {out!r}")
+        else:
+            self.assertEqual(out, text, "text without a secret should not change")
+    return test
+
+
+class TestCustomInputs(unittest.TestCase):
+    """One test per case in the REDACT_INPUTS file (none if it is not set)."""
+
+
+for _number, _case in enumerate(_load_custom_cases(), start=1):
+    _label = re.sub(r"\W+", "_", str(_case.get("name", ""))).strip("_")
+    setattr(TestCustomInputs, f"test_custom_{_number:03d}_{_label}", _make_test(_case))
 
 
 if __name__ == "__main__":

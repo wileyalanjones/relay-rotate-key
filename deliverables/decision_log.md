@@ -41,3 +41,4 @@
 3:39pm PT: Write the rest of the decision memo with AI assistence
 3:45pm PT: Deciding what my check first on the unverified list will be
 3:50pm PT: Editting Decision Memo 
+3:57pm PT: Write README 
