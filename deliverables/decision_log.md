@@ -42,3 +42,6 @@
 3:45pm PT: Deciding what my check first on the unverified list will be
 3:50pm PT: Editting Decision Memo 
 3:57pm PT: Write README 
+4:04pm PT: Adding capablitity to run your own inputs on tests if wanted
+4:10pm PT: Remove own input functionality for breivity 
+4:15pm PT: Make video 
