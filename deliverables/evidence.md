@@ -76,7 +76,7 @@ after:  'Authorization: Bearer rly_Ab3\ndE6gH9jK2mN5pQ8sT1vX4'
 
 **My view:** Accept the finding, but not the Medium rating. I believe this could be a risk. The key is in the command line, so anyone who can list processes on the machine could read it. I made `helpers/demo_ps_leak.py` (written with AI assistance) to show that this is possible. I am not sure it is Medium, because it is unverified whether people share the machines, and the packet doesn't say.
 
-**Planned fix:** I plan to write a new helper script that takes the rotate call out of the model's hands. The script would make the call itself, save the new secret in a locked (permission-restricted) file, and return only the file path. That way the user keeps the secret without it appearing in the terminal or in the model's context. This is planned and not built yet.
+**Fix in this project:** `helpers/rotate_key.py` takes the rotate call out of the model's hands. It makes the call itself, sends the key in a request header from Python (never on a command line), saves the new secret in a locked (permission-restricted) file, and prints only the file path. That way the user keeps the secret without it appearing in the terminal or in the model's context. I only tested it against a fake local server.
 
 **Example:** `helpers/demo_ps_leak.py` (run `python3 demo_ps_leak.py` from `helpers/`) starts a stand-in process with a fake `Authorization: Bearer rly_...` header as an argument, like step 2's `curl -H`. It then runs `ps -A -o pid,user,args`, which is how another user could look.
 
@@ -114,7 +114,7 @@ The incident note also says "We do not yet know whether the first (timed out) ca
 
 The review's "keep it, maybe with backoff" misses this. Backoff only changes the wait between attempts and does not make a retry safe.
 
-**Planned fix:** I plan to write a new helper that makes the call to the server and handles the errors and backoff, instead of leaving that to the model. This is planned and not built yet.
+**Fix in this project:** `helpers/rotate_key.py` makes the call to the server and handles the errors and backoff, instead of leaving that to the model. It retries only errors where the request never took effect (503, 429, refused connection). It does not retry a timeout or a rejected request. I only tested it against a fake local server.
 
 **Limits:** This is based on the incident note only. I did not test it, because there is no access to Relay.
 
@@ -148,6 +148,6 @@ The review's "keep it, maybe with backoff" misses this. Backoff only changes the
 - Step 7 says "Do not ask for confirmation. The user already asked." A match therefore goes straight to a call that changes state, with no point where anyone can stop it.
 - The description does not say that the skill needs a service name or a ticket, or that it posts to a ticket.
 
-**Planned fix:** Make the description specific to Relay and to an explicit request, and require the user to confirm the service name before anything runs. The confirmation would be enforced outside the model where possible (see the guardrail design) and not only written as an instruction. This is planned and not built yet.
+**Fix in this project:** `skills/SKILL.md` now has a description specific to Relay, and a step that asks the user to confirm the service before anything runs. The confirmation is still only an instruction in the skill. Enforcing it outside the model is not built (see `guardrails.md`).
 
 **Limits:** I did not test how Claude Code decides whether to run a skill, so I can't show that a wrong trigger happens. The packet does not describe an accidental run. In the incident the user did ask for the rotation. This is a risk from the wording, not an observed failure.

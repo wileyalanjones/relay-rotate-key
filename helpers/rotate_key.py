@@ -6,7 +6,9 @@ What it does:
   1. Reads the current key from $RELAY_KEY.
   2. Sends the rotate request (the key goes in a header, never on a command line).
   3. Saves the new key to a file only the user can read.
-  4. Prints the file path and the request/response with all keys removed.
+  4. Prints only the file path. It never prints the request or the response.
+  5. Sends a short record (time, service, user, result) to the central log, before
+     the call and after it. If the log cannot be reached it warns and carries on.
 
 Exit codes:
   0  success
@@ -14,6 +16,7 @@ Exit codes:
   3  OUTCOME UNKNOWN: a new key may exist. Do not retry. Check Relay.
   4  the key was rotated but could not be saved. Rotate again.
 """
+import getpass
 import json
 import os
 import re
@@ -28,6 +31,9 @@ from pathlib import Path
 from redact_fixed import redact
 
 URL = "https://relay.example.internal/v1/keys/rotate"
+# Placeholder: I do not know what central log the team has (see unverified.md).
+AUDIT_URL = "https://audit-log.example.internal/v1/events"
+AUDIT_TIMEOUT_SECONDS = 5
 KEY_FOLDER = Path.home() / "relay-keys"
 TIMEOUT_SECONDS = 10
 MAX_ATTEMPTS = 3
@@ -69,6 +75,38 @@ def _clean(text, *keys):
         if key:
             text = text.replace(key, "[REDACTED]")
     return redact(text)
+
+
+def _audit(service, event, result=None, url=None):
+    """Send a record to the central log. Metadata only: no key, key ID or response.
+
+    Never stops the rotation. If the log cannot be reached it prints a warning.
+    """
+    try:
+        user = getpass.getuser()
+    except Exception:
+        user = "unknown"
+    record = {
+        "time": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "service": service if SERVICE_SHAPE.fullmatch(service) else "(invalid name)",
+        "user": user,
+        "event": event,
+    }
+    if result:
+        record["result"] = result
+    request = urllib.request.Request(
+        url or AUDIT_URL,
+        data=json.dumps(record).encode(),
+        method="POST",
+        headers={"Content-Type": "application/json"},
+    )
+    try:
+        urllib.request.urlopen(request, timeout=AUDIT_TIMEOUT_SECONDS).close()
+    except (OSError, ValueError):
+        print(
+            "WARNING: the record of this rotation could not be sent to the central log.",
+            file=sys.stderr,
+        )
 
 
 def _send(service, old_key, url):
@@ -152,7 +190,7 @@ def _save(service, new_key):
 
 
 def rotate(service, url=URL, backoff=BACKOFF_SECONDS):
-    """Rotate the key. Returns (saved_path, cleaned_request, cleaned_response)."""
+    """Rotate the key and return the path of the file holding the new key."""
     if not SERVICE_SHAPE.fullmatch(service):
         raise NothingChanged(
             "The service name may only use letters, digits, '_', '.' and '-' "
@@ -179,39 +217,25 @@ def rotate(service, url=URL, backoff=BACKOFF_SECONDS):
         )
     new_key = match.group(0)
 
-    path = _save(service, new_key)
-
-    request_text = (
-        f"POST {url}\n"
-        f"Authorization: Bearer {old_key}\n"
-        f"{json.dumps({'service': service})}"
-    )
-    response_text = f"HTTP {status}\n{body}"
-    return (
-        path,
-        _clean(request_text, old_key, new_key),
-        _clean(response_text, old_key, new_key),
-    )
+    return _save(service, new_key)
 
 
-def main(argv):
+def main(argv, audit_url=None):
     if len(argv) != 2:
         print("Usage: python3 rotate_key.py <service>", file=sys.stderr)
         return 2
+    service = argv[1]
+    _audit(service, "started", url=audit_url)
     try:
-        path, request_text, response_text = rotate(argv[1])
+        path = rotate(service)
     except RotateError as error:
         print(f"ERROR ({type(error).__name__}): {error}", file=sys.stderr)
+        _audit(service, "finished", result=type(error).__name__, url=audit_url)
         return error.exit_code
 
+    _audit(service, "finished", result="success", url=audit_url)
     print(f"New key saved to: {path}")
     print(f"To open the folder on a Mac: open {path.parent}")
-    print()
-    print("--- request (keys removed) ---")
-    print(request_text)
-    print()
-    print("--- response (keys removed) ---")
-    print(response_text)
     return 0
 
 

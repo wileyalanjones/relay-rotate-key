@@ -61,6 +61,32 @@ Things I believed or assumed but did not check.
    whether the reply also contains the old key, in which case the helper could save the wrong
    one. If no match is found, the helper stops and treats the outcome as unknown.
 
+10. **Whether there is a central log the helper can write to.** After the new security rule
+    (nothing from a rotation may be written to a ticket), the audit trail is a short record
+    the helper writes to a central log. I assumed such a log exists. `rotate_key.py` sends
+    its records to a placeholder address (`audit-log.example.internal`), and I do not know
+    what the team really uses, how it is authenticated, or whether it keeps records safely.
+    I tested only against a fake local server.
+
+11. **Whether there is a development team chat for these messages.** The skill tells the agent
+    to send a short message (service, time and result) to "the development team chat". I
+    assumed a group exists for this and that it is the right audience. I do not know its name
+    or address, so the skill does not name one.
+
+12. **Whether the agent can send a message at all.** The skill depends on the agent having an
+    email or chat tool. I do not know whether the environment has one, and Claude Code and
+    Cursor may differ. If it does not, the message is not sent and only the central log
+    remains.
+
+13. **Whether a message to a chat or inbox counts as writing to a ticket.** I assumed a message
+    with only the service, time and result is allowed, since it is not a ticket. I did not
+    check this with the security team.
+
+14. **What the helper should do when the central log is down.** I chose to carry on with the
+    rotation, warn, and still send the chat message, because a delayed rotation during a
+    leak is its own risk. That was my judgment and the security team may want the opposite.
+    There is also no local copy of the record yet.
+
 ## The one thing I would check first
 
 **Whether the old key is void immediately after a rotation, and whether the timeout in the

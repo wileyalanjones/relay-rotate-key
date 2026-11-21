@@ -1,0 +1,1 @@
+Our security team has set a new rule, effective today. Nothing that comes from a key rotation may be written to any ticket. That includes the response, a masked key and a key ID. For this skill, the agent may not write to the ticket system at all. An audit trail must still exist.
