@@ -19,7 +19,7 @@ This runs the same unit tests (`helpers/test_redact_unit.py`) against the origin
 | Replacement helpers | `helpers/rotate_key.py` (makes the call, saves the key) and `helpers/redact_fixed.py` (fixed filter) |
 | Evidence: inputs, results, the six review items | `deliverables/evidence.md` |
 | Tests that fail today and pass after the fix | `helpers/test_redact_unit.py`, run with `helpers/run_tests.py` |
-| Other evidence scripts | `helpers/test_redact.py` (prints the before and after for each input) and `helpers/demo_ps_leak.py` (shows a key on a command line is visible in the process list) |
+| Other evidence scripts | `helpers/test_redact.py` (prints the before and after for each input), `helpers/demo_ps_leak.py` (shows a key on a command line is visible in the process list) and `helpers/test_redact_gaps.py` (shows the characters the fixed filter still lets through, run with `python3 test_redact_gaps.py` from `helpers/`) |
 | Guardrail design | `deliverables/guardrails.md` |
 | Rollout plan | `deliverables/rollout.md` |
 | Unverified list | `deliverables/unverified.md` |
@@ -27,6 +27,7 @@ This runs the same unit tests (`helpers/test_redact_unit.py`) against the origin
 | Decision log | `deliverables/decision_log.md` |
 | Screen recording | `deliverables/screen-recording` |
 | Note on the requirement change (no writing to tickets) | `deliverables/requirement_change_note.md` |
+| Answers to the additional questions (redactor gaps, AI-use overrules, guardrails if the agent ignores the skill) | `deliverables/additional_question_answers.md` |
 
 The packet and its attachments are in `documents/`.
 
