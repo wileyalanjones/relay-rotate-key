@@ -62,7 +62,7 @@
 - 6:25pm PT: Final checks that requirements are met.
 
 
-## Tuesday November, 23rd
+## Tuesday November, 24th
 
 - 2:20pm PT: Add new questions to project
 - 2:21pm PT: Addressing redact inputs that would slip through
@@ -78,3 +78,5 @@
 - 3:00pm PT: Reviewing question 1 answer.
 - 3:05pm PT: Reviewing question 2 answer.
 - 3:10pm PT: Reviewing question 3 answer. 
+- 3:12pm PT: Updating README 
+- 3:15pm PT: Exporting transcripts 
