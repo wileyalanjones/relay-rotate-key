@@ -1,5 +1,7 @@
 # Decision Log 
 
+## Friday, November 20th 
+
 - 1:15pm PT: Initial repo 
 - 1:15pm PT: Look into redact.py to see issues
 - 1:19pm PT: Redact doesn't work work with new lines or hyphens.
@@ -58,3 +60,8 @@
 - 6:20pm PT: Update README 
 - 6:21pm PT: Point evidence items to the new files that address their issues.
 - 6:25pm PT: Final checks that requirements are met.
+
+
+## Tuesday November, 23rd
+
+- 2:20pm PT: Add new questions to project

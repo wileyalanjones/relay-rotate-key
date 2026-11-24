@@ -1,0 +1,5 @@
+1. Redactor: which inputs do you think your redactor would still let through? Try some and tell us what you found and what you would change.
+
+2. AI-use note: for each of the three times you overruled the AI, what did you look at that made you sure you were right?
+
+3. Guardrails: suppose the agent ignored SKILL.md completely. What in your design would still stop it from writing to a ticket or skipping the confirmation, and what would you add?
