@@ -65,3 +65,5 @@
 ## Tuesday November, 23rd
 
 - 2:20pm PT: Add new questions to project
+- 2:21pm PT: Addressing redact inputs that would slip through
+- 2:25pm PT: Writing a short new test file to show gaps
