@@ -67,3 +67,14 @@
 - 2:20pm PT: Add new questions to project
 - 2:21pm PT: Addressing redact inputs that would slip through
 - 2:25pm PT: Writing a short new test file to show gaps
+- 2:30pm PT: Write answers to additional question 1 about redact gaps
+- 2:35pm PT: Look at what the issues with the AI were explaining them 
+- 2:37pm PT: Look for another quick example to highlight other issues I disagreed with the AI with. 
+- 2:40pm PT: Reconsidering adding a new one for brevity 
+- 2:41pm PT: Starting on third question about what if the agent ignores the skill entirely
+- 2:46pm PT: Looking into the gaps if the model ignores the skill. Thinking on how to improve it
+- 2:50pm PT: Thinking about closing gaps in design. Adding secrets manager instead of ENV variable to make sure the model does not have access to key. 
+- 2:55pm PT: Adding answers to design gaps in security for agent that ignores the skill. 
+- 3:00pm PT: Reviewing question 1 answer.
+- 3:05pm PT: Reviewing question 2 answer.
+- 3:10pm PT: Reviewing question 3 answer. 
